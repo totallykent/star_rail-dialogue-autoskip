@@ -13,7 +13,7 @@ from dotenv import find_dotenv, load_dotenv, set_key
 # Initial setup
 os.system('cls')
 load_dotenv()
-print('Welcome to Genshin Impact Dialogue Skipper\n')
+print('Welcome to Honkai: Star Rail Dialogue Skipper\n')
 
 # Check if either screen dimension is missing from .env
 if os.environ['WIDTH'] == '' or os.environ['HEIGHT'] == '':
@@ -52,22 +52,22 @@ def height_adjust(y: int) -> int:
 
 # Dimensions of bottom dialogue option
 BOTTOM_DIALOGUE_MIN_X = width_adjust(1300)
-BOTTOM_DIALOGUE_MAX_X = width_adjust(1700)
-BOTTOM_DIALOGUE_MIN_Y = height_adjust(790)
-BOTTOM_DIALOGUE_MAX_Y = height_adjust(800)
+BOTTOM_DIALOGUE_MAX_X = width_adjust(1715)
+BOTTOM_DIALOGUE_MIN_Y = height_adjust(727)
+BOTTOM_DIALOGUE_MAX_Y = height_adjust(789)
 
-# Pixel coordinates for white part of the autoplay button
-PLAYING_ICON_X = width_adjust(84)
-PLAYING_ICON_Y = height_adjust(46)
+# Pixel coordinates for gold part of story recap
+PLAYING_ICON_X = width_adjust(147)
+PLAYING_ICON_Y = height_adjust(65)
 
-# Pixel coordinates for white part of the speech bubble in bottom dialogue option
-DIALOGUE_ICON_X = width_adjust(1301)
-DIALOGUE_ICON_LOWER_Y = height_adjust(808)
-DIALOGUE_ICON_HIGHER_Y = height_adjust(790)
+# Pixel coordinates for black part of the numbers beside the speech bubble in bottom dialogue option
+DIALOGUE_ICON_X = width_adjust(1239)
+DIALOGUE_ICON_LOWER_Y = height_adjust(766)
+DIALOGUE_ICON_HIGHER_Y = height_adjust(752)
 
-# Pixel coordinates near middle of the screen known to be white while the game is loading
-LOADING_SCREEN_X = width_adjust(1200)
-LOADING_SCREEN_Y = height_adjust(700)
+# [Redundant] Pixel coordinates near middle of the screen known to be white while the game is loading
+#LOADING_SCREEN_X = width_adjust(1200)
+#LOADING_SCREEN_Y = height_adjust(700)
 
 
 def random_interval() -> float:
@@ -113,28 +113,28 @@ def on_press(key: (Union[Key, KeyCode, None])) -> None:
 
 def main() -> None:
     """
-    Skip Genshin Impact dialogue when it's present based on the colors of 3 specific pixels.
+    Skip Honkai: Star Rail dialogue when it's present based on the colors of 3 specific pixels.
     :return: None
     """
 
     def is_genshinimpact_active():
-        """Check if Genshin Impact is the active window."""
-        return getActiveWindowTitle() == "Genshin Impact"
+        """Check if Honkai: Star Rail is the active window."""
+        return getActiveWindowTitle() == "Honkai: Star Rail"
 
     def is_dialogue_playing():
-        return pixel(PLAYING_ICON_X, PLAYING_ICON_Y) == (236, 229, 216)
+        return pixel(PLAYING_ICON_X, PLAYING_ICON_Y) == (241, 213, 153)
 
     def is_dialogue_option_available():
-        # Confirm loading screen is not white
-        if pixel(LOADING_SCREEN_X, LOADING_SCREEN_Y) == (255, 255, 255):
-            return False
+        # [Redundant] Confirm loading screen is not white
+        #if pixel(LOADING_SCREEN_X, LOADING_SCREEN_Y) == (255, 255, 255):
+        #    return False
 
         # Check if lower dialogue icon pixel is white
-        if pixel(DIALOGUE_ICON_X, DIALOGUE_ICON_LOWER_Y) == (255, 255, 255):
+        if pixel(DIALOGUE_ICON_X, DIALOGUE_ICON_LOWER_Y) == (10, 8, 6):
             return True
 
         # Check if higher dialogue icon pixel is white
-        if pixel(DIALOGUE_ICON_X, DIALOGUE_ICON_HIGHER_Y) == (255, 255, 255):
+        if pixel(DIALOGUE_ICON_X, DIALOGUE_ICON_HIGHER_Y) == (10, 8, 6):
             return True
 
         return False
